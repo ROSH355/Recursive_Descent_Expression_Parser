@@ -56,11 +56,4 @@ g++ -std=c++17 *.cpp -o parser
 
 Type an expression when prompted and press Enter.
 
-## 🔮 Future Scope
 
-- Support variables and assignment
-- Add unary operators (`+`/`-`)
-- Extend to functions or more complex grammars
-- Generate code or bytecode from AST
-
-This project is structured and documented with clarity, making it suitable for inclusion in a compiler/systems internship portfolio.
