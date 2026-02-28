@@ -2,6 +2,16 @@
 #include "parser.h"
 #include <iostream>
 #include <string>
+#include <sstream>
+
+// Helper function to capture AST output to a string
+std::string captureASTOutput(const std::unique_ptr<ASTNode>& ast) {
+    std::stringstream ss;
+    std::streambuf* old_cout = std::cout.rdbuf(ss.rdbuf());
+    ast->print();
+    std::cout.rdbuf(old_cout);
+    return ss.str();
+}
 
 int main() {
     std::cout << "Recursive Descent Parser with Variables & Unary Operators\n";
@@ -28,12 +38,26 @@ int main() {
                     continue;
                 }
                 
+                // Capture original AST before optimization
+                std::string original_ast_output = captureASTOutput(ast);
+                
                 // Optimize the AST (constant folding, etc.)
                 auto optimized = ast->optimize();
                 
-                std::cout << "AST Structure:\n";
-                optimized->print();
+                // Capture optimized AST
+                std::string optimized_ast_output = captureASTOutput(optimized);
                 
+                // Print original AST
+                std::cout << "Original AST:\n" << original_ast_output;
+                
+                // Check if optimization changed the AST
+                if (original_ast_output == optimized_ast_output) {
+                    std::cout << "No optimization applied.\n\n";
+                } else {
+                    std::cout << "Optimized AST:\n" << optimized_ast_output << "\n";
+                }
+                
+                // Evaluate and print result
                 double result = optimized->evaluate(symbols);
                 std::cout << "Result: " << result << "\n\n";
                 
