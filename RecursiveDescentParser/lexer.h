@@ -13,11 +13,15 @@ struct Token {
         DIV,
         LPAREN,
         RPAREN,
+        IDENTIFIER,
+        ASSIGN,
         END
     } type;
     double value; // valid only when type == NUMBER
+    std::string text; // valid for IDENTIFIER
+    size_t pos; // position in input
 
-    Token(Type t = END, double v = 0.0) : type(t), value(v) {}
+    Token(Type t = END, double v = 0.0, size_t p = 0) : type(t), value(v), pos(p) {}
 };
 
 class Lexer {
